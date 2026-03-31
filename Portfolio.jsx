@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import './Portfolio.css';
 import ProfilePhoto from '../../../assets/Me/Yo.jpeg';
 import TasksImage from '../../../assets/Images/Tasks.png';
+import BlogImage from '../../../assets/Images/Blog.png';
 import Pizzeria from '../../../assets/Images/Pizzeria.png';
 import FractalImage from '../../../assets/Images/Fractal_Gallery.png';
 import TrophyIcon from '../../../assets/SVGs/Trophy_Icon.svg';
@@ -9,11 +10,15 @@ import TrophyIcon2 from '../../../assets/SVGs/Trophy_Icon2.svg';
 import WebIcon from '../../../assets/SVGs/Web_Icon.svg';
 import AppIcon from '../../../assets/SVGs/App_Icon.svg';
 import DeployIcon from '../../../assets/SVGs/Deploy_Icon.svg';
+import BlogSequenceDiagram from '../../../assets/SVGs/Blog_Sequence_Diagram.svg';
+import BlogDeploymentDiagram from '../../../assets/SVGs/Blog_Deployment_Diagram.svg';
+import BlogComponentDiagram from '../../../assets/SVGs/Blog_Component_Diagram.svg';
 
 function Portfolio() {
   const [activeSection, setActiveSection] = useState('home');
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [activeDiagram, setActiveDiagram] = useState(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -122,6 +127,25 @@ function Portfolio() {
       window.removeEventListener('scroll', onScroll);
     };
   }, []);
+
+  useEffect(() => {
+    if (!activeDiagram) return undefined;
+
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setActiveDiagram(null);
+      }
+    };
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [activeDiagram]);
 
   const scrollToSection = (sectionId) => {
     setActiveSection(sectionId);
@@ -279,22 +303,140 @@ function Portfolio() {
   ];
 
   const credentialsHighlights = [
-    { value: '+30', label: 'Certificados técnicos' },
+    { value: '+20', label: 'Certificados técnicos' },
     { value: '+3 años', label: 'Experiencia backend' },
     { value: 'CCPL', label: 'Competidor 2024-2026' },
     { value: 'OSS', label: 'Contribuidor open source' }
   ];
 
-  const certificatePlaceholders = Array.from({ length: 30 }, (_, index) => ({
-    id: String(index + 1).padStart(2, '0'),
-    title: `Certificación ${String(index + 1).padStart(2, '0')} · Nombre del programa`,
-    institution: 'Institución y URL pendientes'
-  }));
+  // const certificatePlaceholders = Array.from({ length: 30 }, (_, index) => ({
+  //   id: String(index + 1).padStart(2, '0'),
+  //   title: `Certificación ${String(index + 1).padStart(2, '0')} · Nombre del programa`,
+  //   institution: 'Institución y URL pendientes'
+  // }));
+
+  const certificatePlaceholders = [
+  {
+    id: '01',
+    title: 'Tecnólogo, Desarrollo de software',
+    institution: 'Universidad Agustiniana'
+  },
+  {
+    id: '02',
+    title: 'Técnico, Sistemas informáticos',
+    institution: 'Servicio Nacional de Aprendizaje (SENA)'
+  },
+  {
+    id: '03',
+    title: 'Diplomado, Programación en Java',
+    institution: 'Politécnico de Colombia'
+  },
+  {
+    id: '04',
+    title: 'Diplomado, Metodología SCRUM',
+    institution: 'Edutin Academy'
+  },
+  {
+    id: '05',
+    title: 'Java Foundations',
+    institution: 'Oracle Academy'
+  },
+  {
+    id: '06',
+    title: 'Cloud Computing Fundamentals',
+    institution: 'Google Cloud Skills Boost'
+  },
+  {
+    id: '07',
+    title: 'Inteligencia Artificial Aplicada',
+    institution: 'MinTIC Colombia'
+  },
+  {
+    id: '08',
+    title: 'Curso, Bases de datos: Generalidades y sistemas de gestión',
+    institution: 'Servicio Nacional de Aprendizaje (SENA)'
+  },
+  {
+    id: '09',
+    title: 'Curso, Spring Boot esencial',
+    institution: 'LinkedIn Learning'
+  },
+  {
+    id: '10',
+    title: 'Curso, Como gestionar equipos de trabajo',
+    institution: 'Project Management Institute'
+  },
+  {
+    id: '11',
+    title: 'Curso, Java SE Orientado a objetos',
+    institution: 'Platzi'
+  },
+  {
+    id: '12',
+    title: 'Curso, Java SE SQL y bases de datos',
+    institution: 'Platzi'
+  },
+  {
+    id: '13',
+    title: 'Curso, Java SE Persistencia de datos',
+    institution: 'Platzi'
+  },
+  {
+    id: '14',
+    title: 'Curso, Testing en Java',
+    institution: 'Platzi'
+  },
+  {
+    id: '15',
+    title: 'Curso, Java Spring Framework',
+    institution: 'Platzi'
+  },
+  {
+    id: '16',
+    title: 'Curso, Spring Data JPA: Bases de datos',
+    institution: 'Platzi'
+  },
+  {
+    id: '17',
+    title: 'Curso, Seguridad web con Spring Security',
+    institution: 'Platzi'
+  },
+  {
+    id: '18',
+    title: 'Curso, Programación funcional con Java SE',
+    institution: 'Platzi'
+  },
+  {
+    id: '19',
+    title: 'Curso, Funciones y estructuras de control',
+    institution: 'Platzi'
+  },
+  {
+    id: '20',
+    title: 'Curso, Git y GitHub',
+    institution: 'Platzi'
+  },
+  {
+    id: '21',
+    title: 'Curso, Docker',
+    institution: 'Platzi'
+  },
+  {
+    id: '22',
+    title: 'Curso, Introducción a la Ciencia de datos',
+    institution: 'Cisco Networking Academy'
+  },
+  {
+    id: '23',
+    title: 'Curso, Introducción a la Ciberseguridad',
+    institution: 'Cisco Networking Academy'
+  }
+];
 
   const projectStories = [
     {
       id: 'suite-jflorez',
-      title: 'JFlorez Suite Empresarial',
+      title: 'JFlorez Suite',
       subtitle: 'Plataforma gratuita con arquitectura distribuida',
       summary:
         'Suite modular orientada a productividad: autenticación robusta, mensajería asíncrona y servicios desacoplados para escalar por dominio.',
@@ -329,34 +471,55 @@ function Portfolio() {
     {
       id: 'blog-personal',
       title: 'Blog Personal Colaborativo',
-      subtitle: 'Publicaciones semanales y contribuciones vía PR',
+      subtitle: 'SPA Markdown con pipeline estático y despliegue containerizado',
       summary:
-        'Blog técnico con flujo editorial continuo, enfoque en calidad de contenido y colaboración abierta mediante pull requests de la comunidad.',
-      tags: ['GitHub', 'Pull Requests', 'Open Source', 'Contenido Técnico', 'CI/CD'],
-      liveUrl: 'https://github.com/dvchinx',
-      repoUrl: 'https://github.com/dvchinx',
+        'Blog técnico en React desplegado en blog.jesusflorez.cloud, con carga de posts Markdown por fecha, routing dinámico y flujo de build Docker + Nginx.',
+      tags: ['React', 'Vite', 'React Router', 'gray-matter', 'React Markdown', 'Docker', 'Nginx'],
+      liveUrl: 'https://blog.jesusflorez.cloud',
+      repoUrl: 'https://github.com/dvchinx/blog',
+      preview: { src: BlogImage, alt: 'JFlorez Blog' },
       architecture: {
-        nodes: ['Autor principal', 'Repositorio GitHub', 'Workflow CI', 'Review PRs', 'Publicación final'],
+        nodes: ['index.html + main.jsx', 'App + React Router', 'postsLoader(import.meta.glob)', 'gray-matter + ReactMarkdown', 'Docker build + Nginx'],
         links: [
-          'Cada aporte entra por PR con validaciones automáticas.',
-          'El contenido se revisa por calidad técnica y claridad pedagógica.',
-          'La publicación se programa en cadencia semanal.'
+          'Bootstrap: BrowserRouter monta App y define rutas / y /:year/:month/:slug.',
+          'Pipeline de contenido: postsLoader carga Markdown, separa frontmatter YAML y body.',
+          'Render final: ReactMarkdown aplica remark-gfm y rehype-raw para mostrar el post.'
         ]
       },
+      diagramAssets: [
+        {
+          id: 'blog-sequence-real',
+          title: 'Diagrama de secuencia',
+          src: BlogSequenceDiagram,
+          alt: 'Diagrama de secuencia del blog: flujo entre User, PostList, PostView, postsLoader, gray-matter y ReactMarkdown.'
+        },
+        {
+          id: 'blog-deployment-real',
+          title: 'Diagrama de despliegue',
+          src: BlogDeploymentDiagram,
+          alt: 'Diagrama de despliegue del blog: etapa de build con Vite y etapa de serving con Nginx en Docker.'
+        },
+        {
+          id: 'blog-components-real',
+          title: 'Diagrama de componentes',
+          src: BlogComponentDiagram,
+          alt: 'Diagrama de componentes del blog: entry points, app, componentes de pagina, layout, utilidades y contenido markdown.'
+        }
+      ],
       stackReasoning: [
-        { tech: 'GitHub Flow', reason: 'Trazabilidad y colaboración ordenada para múltiples contribuidores.' },
-        { tech: 'PR Reviews', reason: 'Asegura consistencia editorial y rigor técnico antes de publicar.' },
-        { tech: 'Automatización CI', reason: 'Reduce errores manuales en formato y checks de calidad.' }
+        { tech: 'Vite + import.meta.glob', reason: 'Permite carga estática de contenido y build rápido sin backend dedicado.' },
+        { tech: 'gray-matter + frontmatter', reason: 'Estructura uniforme de metadatos para búsqueda, filtros y tarjetas de posts.' },
+        { tech: 'Docker multistage + Nginx', reason: 'Empaquetado reproducible y soporte de rutas SPA con try_files a index.html.' }
       ],
       metrics: [
-        { label: 'Frecuencia', value: '1 post/semana', note: 'cadencia editorial constante' },
-        { label: 'Tiempo de review', value: '< 72h', note: 'objetivo para PRs de comunidad' },
-        { label: 'Contribuciones externas', value: 'En crecimiento', note: 'indicador de comunidad activa' }
+        { label: 'Paginación', value: '9 posts/página', note: 'navegación definida en PostList' },
+        { label: 'Tipos de contenido', value: '2 categorías', note: 'tech y coding con filtros y búsqueda' },
+        { label: 'Rutas principales', value: '2 vistas', note: '/ (listado) y /:year/:month/:slug (detalle)' }
       ],
       tradeoffs: [
-        'Abrir PRs incrementa revisión, pero eleva la calidad final del contenido.',
-        'Priorizo claridad técnica sobre velocidad de publicación.',
-        'La automatización reduce fricción para mantener la disciplina semanal.'
+        'El enfoque estático simplifica infraestructura, pero requiere rebuild para publicar cambios.',
+        'rehype-raw habilita HTML avanzado en Markdown, con mayor responsabilidad de sanitización de contenido.',
+        'El modelo SPA mejora UX, pero exige configuración explícita de fallback en Nginx para deep links.'
       ]
     },
     {
@@ -699,8 +862,7 @@ function Portfolio() {
               <div className="skills-right-header" ref={skillsRightHeaderRef}>
                 <h3 className="skills-subtitle">Estudios y Certificados</h3>
                 <p className="skills-summary-text">
-                  Lista preparada para tus 30 certificaciones. Puedes reemplazar cada placeholder
-                  por el nombre real, institución y enlace del certificado.
+                  Listado de mis estudios y certificaciones
                 </p>
               </div>
               <div
@@ -739,7 +901,10 @@ function Portfolio() {
           </p>
 
           <div className="project-story-list">
-            {projectStories.map((project, index) => (
+            {projectStories.map((project, index) => {
+              const diagramAssets = project.diagramAssets || [];
+
+              return (
               <article key={project.id} className="project-story-shell">
                 <div className="project-story-sticky">
                   <div className="project-story-meta">
@@ -776,24 +941,62 @@ function Portfolio() {
                   </div>
 
                   <div className="project-story-rail" aria-label={`Narrativa técnica de ${project.title}`}>
-                    <section className="story-panel">
+                    <section className="story-panel architecture-panel">
                       <p className="story-label">Arquitectura</p>
-                      <h4 className="story-title">Diagrama funcional del sistema</h4>
-                      <div className="story-diagram-grid">
-                        {project.architecture.nodes.map((node) => (
-                          <div key={`${project.id}-${node}`} className="diagram-node">{node}</div>
-                        ))}
-                      </div>
-                      <ul className="story-bullets">
-                        {project.architecture.links.map((line) => (
-                          <li key={`${project.id}-${line}`}>{line}</li>
-                        ))}
-                      </ul>
+                      <h4 className="story-title">Diagramas del sistema</h4>
+
+                      {project.diagrams?.length > 0 && (
+                        <div className="project-diagram-gallery" role="group" aria-label={`Diagramas del proyecto ${project.title}`}>
+                          {project.diagrams.map((diagram) => (
+                            <article key={`${project.id}-${diagram.id}`} className="project-diagram-card">
+                              <h5 className="project-diagram-title">{diagram.title}</h5>
+                              <p className="project-diagram-caption">{diagram.caption}</p>
+                              <div className="project-diagram-flow" role="list" aria-label={diagram.title}>
+                                {diagram.stages.map((stage, stageIndex) => (
+                                  <div key={`${diagram.id}-${stage}`} className="project-diagram-stage-wrap" role="listitem">
+                                    <span className="project-diagram-stage">{stage}</span>
+                                    {stageIndex < diagram.stages.length - 1 && (
+                                      <span className="project-diagram-arrow" aria-hidden="true">-</span>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            </article>
+                          ))}
+                        </div>
+                      )}
+
+                      {diagramAssets.length > 0 && (
+                        <div className="project-svg-gallery" role="group" aria-label={`SVGs de ${project.title}`}>
+                          {diagramAssets.map((diagramAsset) => (
+                            <figure key={`${project.id}-${diagramAsset.id}`} className="project-sequence-diagram">
+                              <figcaption className="project-sequence-caption">{diagramAsset.title}</figcaption>
+                              <button
+                                type="button"
+                                className="project-sequence-link"
+                                onClick={() => setActiveDiagram(diagramAsset)}
+                                aria-label={`Abrir ${diagramAsset.title} en modal`}
+                              >
+                                <img
+                                  src={diagramAsset.src}
+                                  alt={diagramAsset.alt}
+                                  className="project-sequence-image"
+                                  loading="lazy"
+                                />
+                              </button>
+                            </figure>
+                          ))}
+                        </div>
+                      )}
+
+                      {!project.diagrams?.length && !diagramAssets.length && (
+                        <p className="project-diagram-empty">Diagramas en preparación para este proyecto.</p>
+                      )}
                     </section>
 
                     <section className="story-panel">
-                      <p className="story-label">Stack</p>
-                      <h4 className="story-title">Tecnologías y decisión de diseño</h4>
+                      <p className="story-label">Stack + Métricas</p>
+                      <h4 className="story-title">Tecnologías, decisiones e indicadores</h4>
                       <div className="story-key-values">
                         {project.stackReasoning.map((item) => (
                           <div key={`${project.id}-${item.tech}`} className="story-key-row">
@@ -802,11 +1005,8 @@ function Portfolio() {
                           </div>
                         ))}
                       </div>
-                    </section>
 
-                    <section className="story-panel">
-                      <p className="story-label">Métricas</p>
-                      <h4 className="story-title">Indicadores placeholder de desempeño</h4>
+                      <h4 className="story-title">Indicadores de desempeño</h4>
                       <div className="metrics-grid">
                         {project.metrics.map((metric) => (
                           <article key={`${project.id}-${metric.label}`} className="metric-card">
@@ -817,20 +1017,10 @@ function Portfolio() {
                         ))}
                       </div>
                     </section>
-
-                    <section className="story-panel">
-                      <p className="story-label">Trade-offs</p>
-                      <h4 className="story-title">Retos reales y decisiones estratégicas</h4>
-                      <ul className="story-bullets">
-                        {project.tradeoffs.map((tradeoff) => (
-                          <li key={`${project.id}-${tradeoff}`}>{tradeoff}</li>
-                        ))}
-                      </ul>
-                    </section>
                   </div>
                 </div>
               </article>
-            ))}
+            );})}
           </div>
         </div>
       </section>
@@ -964,6 +1154,37 @@ function Portfolio() {
         >
           ↑
         </button>
+      )}
+
+      {activeDiagram && (
+        <div
+          className="diagram-modal-overlay"
+          role="presentation"
+          onClick={() => setActiveDiagram(null)}
+        >
+          <div
+            className="diagram-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-label={activeDiagram.title || 'Diagrama ampliado'}
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="diagram-modal-header">
+              <p className="diagram-modal-title">{activeDiagram.title || 'Diagrama'}</p>
+              <button
+                type="button"
+                className="diagram-modal-close"
+                onClick={() => setActiveDiagram(null)}
+                aria-label="Cerrar modal"
+              >
+                x
+              </button>
+            </div>
+            <div className="diagram-modal-body">
+              <img src={activeDiagram.src} alt={activeDiagram.alt} className="diagram-modal-image" />
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
