@@ -13,6 +13,9 @@ import DeployIcon from '../../../assets/SVGs/Deploy_Icon.svg';
 import BlogSequenceDiagram from '../../../assets/SVGs/Blog_Sequence_Diagram.svg';
 import BlogDeploymentDiagram from '../../../assets/SVGs/Blog_Deployment_Diagram.svg';
 import BlogComponentDiagram from '../../../assets/SVGs/Blog_Component_Diagram.svg';
+import JFlorezSuiteComponentDiagram from '../../../assets/SVGs/JFlorezSuite_Component_Diagram.svg';
+import JFlorezSuiteNotesSequenceDiagram from '../../../assets/SVGs/JFlorezSuite_Notes_Sequence_Diagram.svg';
+import JFlorezSuiteDeploymentDiagram from '../../../assets/SVGs/JFlorezSuite_Deployment_Diagram.svg';
 
 function Portfolio() {
   const [activeSection, setActiveSection] = useState('home');
@@ -444,6 +447,26 @@ function Portfolio() {
       liveUrl: '/',
       repoUrl: 'https://github.com/dvchinx',
       preview: { src: TasksImage, alt: 'JFlorez Suite' },
+      diagramAssets: [
+        {
+          id: 'jflorez-components-real',
+          title: 'Diagrama de componentes',
+          src: JFlorezSuiteComponentDiagram,
+          alt: 'Diagrama de componentes de JFlorez Suite con frontend, backend, chat, mensajeria e infraestructura.'
+        },
+        {
+          id: 'jflorez-notes-sequence-real',
+          title: 'Diagrama de secuencia (Notas)',
+          src: JFlorezSuiteNotesSequenceDiagram,
+          alt: 'Diagrama de secuencia del modulo Notas con flujo de Google Drive, cache local y sincronizacion online/offline.'
+        },
+        {
+          id: 'jflorez-deployment-real',
+          title: 'Diagrama de despliegue',
+          src: JFlorezSuiteDeploymentDiagram,
+          alt: 'Diagrama de despliegue de JFlorez Suite con Nginx, contenedores Docker, servicios de datos e integraciones externas.'
+        }
+      ],
       architecture: {
         nodes: ['Frontend React', 'API Gateway + OAuth2', 'Core Spring APIs', 'Kafka / RabbitMQ', 'Microservicio IA (Flask)'],
         links: [
