@@ -58,8 +58,9 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 700;
+  letter-spacing: 0.01em;
 }
 
 .brand-text {
@@ -178,6 +179,9 @@
   filter: blur(120px);
   opacity: 0.6;
   animation: bgFloat 20s ease-in-out infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .hero-bg-1 {
@@ -278,6 +282,7 @@
 
 .hero-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
 }
 
@@ -596,17 +601,28 @@
 }
 
 .btn-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   color: #a78bfa;
   text-decoration: none;
   font-weight: 600;
   font-size: 0.9rem;
+  font-family: inherit;
   transition: all 0.3s;
   align-self: flex-start;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  border-radius: 8px;
+  background: rgba(167, 139, 250, 0.07);
+  cursor: pointer;
 }
 
 .btn-more:hover {
   color: #ec4899;
-  transform: translateX(5px);
+  border-color: rgba(236, 72, 153, 0.4);
+  background: rgba(236, 72, 153, 0.07);
+  transform: translateX(2px);
 }
 
 /* Skills */
@@ -956,20 +972,24 @@
   background:
     radial-gradient(circle at top right, rgba(236, 72, 153, 0.15), transparent 40%),
     radial-gradient(circle at bottom left, rgba(107, 115, 255, 0.15), transparent 45%),
-    rgba(12, 9, 20, 0.88);
-  backdrop-filter: blur(14px);
+    rgba(12, 9, 20, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: grid;
   grid-template-columns: minmax(320px, 0.95fr) minmax(360px, 1.05fr);
   gap: 1.25rem;
   padding: 1.25rem;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
-  transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+  transition: border-color 0.35s ease, box-shadow 0.35s ease;
+  /* Prevent GPU compositing artifacts during fast scroll */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
+  isolation: isolate;
 }
 
 .project-story-shell.project-visible .project-story-sticky {
-  animation:
-    cinematicSettle 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both,
-    stickyBreath 5.2s ease-in-out 1.2s infinite;
+  animation: cinematicSettle 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 .project-story-sticky:hover {
@@ -1048,18 +1068,43 @@
 .project-link-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  color: #a78bfa;
+  gap: 0.45rem;
   text-decoration: none;
   font-weight: 600;
-  font-size: 0.84rem;
-  transition: all 0.3s;
+  font-size: 0.82rem;
+  transition: all 0.28s ease;
   align-self: flex-start;
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
 }
 
-.project-link-btn:hover {
-  color: #ec4899;
-  transform: translateX(5px);
+.project-link-live {
+  color: #d8d5ff;
+  background: rgba(167, 139, 250, 0.1);
+  border-color: rgba(167, 139, 250, 0.28);
+}
+
+.project-link-live:hover {
+  color: #fff;
+  background: rgba(167, 139, 250, 0.2);
+  border-color: rgba(167, 139, 250, 0.55);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(167, 139, 250, 0.2);
+}
+
+.project-link-repo {
+  color: #c9c9d8;
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.project-link-repo:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
 }
 
 .project-media-preview {
@@ -1417,8 +1462,15 @@
   background: rgba(18, 15, 33, 0.9);
   color: #f0efff;
   cursor: pointer;
-  font-size: 0.88rem;
-  text-transform: uppercase;
+  display: grid;
+  place-items: center;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.diagram-modal-close:hover {
+  background: rgba(236, 72, 153, 0.15);
+  border-color: rgba(236, 72, 153, 0.5);
+  transform: scale(1.1);
 }
 
 .diagram-modal-body {
@@ -1558,15 +1610,7 @@
   }
 }
 
-@keyframes stickyBreath {
-  0%,
-  100% {
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
-  }
-  50% {
-    box-shadow: 0 28px 72px rgba(0, 0, 0, 0.5);
-  }
-}
+/* stickyBreath removed — box-shadow animation caused full repaints & scroll artifacts */
 
 /* Contact */
 .contact-section {
@@ -1887,18 +1931,15 @@
   position: fixed;
   right: 1.2rem;
   bottom: 1.2rem;
-  width: 56px;
-  height: 56px;
-  border-radius: 14px;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
   border: 1px solid rgba(82, 162, 255, 0.52);
   background: linear-gradient(160deg, rgba(20, 31, 54, 0.95), rgba(12, 20, 36, 0.95));
   display: grid;
   place-items: center;
   padding: 0;
   color: #fff;
-  font-size: 1.85rem;
-  line-height: 1;
-  font-weight: 700;
   cursor: pointer;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.38);
   transition: transform 0.24s ease, border-color 0.24s ease, box-shadow 0.24s ease;
@@ -2187,6 +2228,258 @@
   }
 }
 
+/* ── Achievements Modal ─────────────────────────────────────────────── */
+
+.achievements-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2100;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(4, 5, 12, 0.88);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: achievementsOverlayIn 0.25s ease both;
+}
+
+@keyframes achievementsOverlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.achievements-modal {
+  width: min(92vw, 560px);
+  max-height: 90vh;
+  border-radius: 20px;
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  background: rgba(10, 9, 20, 0.98);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 28px 72px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(167, 139, 250, 0.08);
+  animation: achievementsModalIn 0.32s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes achievementsModalIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Header */
+.achievements-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1.1rem;
+  border-bottom: 1px solid rgba(167, 139, 250, 0.18);
+  flex-shrink: 0;
+}
+
+.achievements-modal-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.achievements-modal-icon {
+  color: #a78bfa;
+  flex-shrink: 0;
+}
+
+.achievements-modal-title {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #f0eeff;
+  letter-spacing: 0.01em;
+}
+
+.achievements-modal-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid rgba(167, 139, 250, 0.28);
+  background: rgba(20, 16, 36, 0.9);
+  color: #d8d5f5;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.achievements-modal-close:hover {
+  background: rgba(236, 72, 153, 0.15);
+  border-color: rgba(236, 72, 153, 0.45);
+  transform: scale(1.1);
+}
+
+/* Slide image */
+.achievements-modal-image-wrap {
+  position: relative;
+  flex-shrink: 0;
+  max-height: 340px;
+  overflow: hidden;
+  background: #08080e;
+}
+
+.achievements-modal-image {
+  display: block;
+  width: 100%;
+  height: 340px;
+  object-fit: cover;
+  object-position: center top;
+  animation: achievementSlideIn 0.38s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes achievementSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.achievements-modal-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 40%,
+    rgba(10, 9, 20, 0.65) 100%
+  );
+  pointer-events: none;
+}
+
+/* Info */
+.achievements-modal-info {
+  padding: 1rem 1.2rem 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.achievements-modal-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.achievements-modal-date {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #b8b8c9;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.achievements-modal-label {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #a78bfa;
+  padding: 0.18rem 0.55rem;
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  border-radius: 999px;
+  background: rgba(167, 139, 250, 0.08);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.achievements-modal-rank {
+  margin: 0;
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+}
+
+.achievements-modal-event {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #b8b8c9;
+  line-height: 1.5;
+}
+
+/* Navigation */
+.achievements-modal-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.85rem 1.2rem;
+  flex-shrink: 0;
+}
+
+.achievement-nav-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid rgba(167, 139, 250, 0.28);
+  background: rgba(20, 16, 36, 0.85);
+  color: #d8d5f5;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.achievement-nav-btn:hover {
+  background: rgba(167, 139, 250, 0.15);
+  border-color: rgba(167, 139, 250, 0.5);
+  transform: scale(1.08);
+}
+
+.achievement-dots {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.achievement-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(167, 139, 250, 0.28);
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.achievement-dot.active {
+  background: #a78bfa;
+  transform: scale(1.35);
+}
+
+.achievement-dot:hover:not(.active) {
+  background: rgba(167, 139, 250, 0.55);
+}
+
+.achievement-counter {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #7a789a;
+  letter-spacing: 0.05em;
+  min-width: 2.8rem;
+  text-align: center;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal-section,
   .project-story-shell,
@@ -2198,7 +2491,10 @@
   .skill-card,
   .hero-bg-element,
   .floating-icon,
-  .hero-image-glow {
+  .hero-image-glow,
+  .achievements-modal,
+  .achievements-modal-overlay,
+  .achievements-modal-image {
     animation: none !important;
     transition: none !important;
     transform: none !important;
